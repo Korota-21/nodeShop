@@ -4,6 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const rateLimit = require("express-rate-limit")
 const { default: mongoose } = require('mongoose');
+const authRoutes = require("./routes/auth.js");
 
 const config = require('./config');
 // const passportJWT = require("./middlewares/passportJWT")()
@@ -28,7 +29,11 @@ app.use(Limiter)
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
-// post route
+// routes
+app.use('/api/auth', authRoutes)
+
+
+
 
 const port = process.env.PORT || 8000;
 
