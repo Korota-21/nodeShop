@@ -33,6 +33,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use('/api/auth', authRoutes)
 
 
+app.use(errorHandler)
 
 
 const port = process.env.PORT || 8000;
