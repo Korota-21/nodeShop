@@ -4,12 +4,13 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const rateLimit = require("express-rate-limit")
 const { default: mongoose } = require('mongoose');
-const authRoutes = require("./routes/auth.js");
 
 const config = require('./config');
 const passportJWT = require("./middlewares/passportJWT")()
 const errorHandler = require('./middlewares/errorHandler')
 
+const authRoutes = require("./routes/auth.js");
+const productRoutes = require("./routes/product.js");
 const app = express();
 
 app.use(cors());
@@ -32,6 +33,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 // routes
 app.use('/api/auth', authRoutes)
+app.use('/api/product', productRoutes)
 
 
 app.use(errorHandler)
