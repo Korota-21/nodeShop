@@ -7,7 +7,8 @@ const { default: mongoose } = require('mongoose');
 const authRoutes = require("./routes/auth.js");
 
 const config = require('./config');
-// const passportJWT = require("./middlewares/passportJWT")()
+const passportJWT = require("./middlewares/passportJWT")()
+const errorHandler = require('./middlewares/errorHandler')
 
 const app = express();
 
@@ -25,7 +26,7 @@ const Limiter = rateLimit({
 // Apply the rate limiting middleware to API calls
 app.use(Limiter)
 
-// app.use(passportJWT.initialize())
+app.use(passportJWT.initialize())
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
