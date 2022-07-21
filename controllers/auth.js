@@ -25,7 +25,16 @@ exports.login = async(req, res, next) => {
             throw error
         }
         const token = jwt.encode({ id: user.id }, config.jwtSecret)
-        return res.send({ user, token })
+        return res.send({
+            user: {
+                "_id": user._id,
+                "type": user.type,
+                "cart": user.cart,
+                "email": user.email,
+                "name": user.name,
+            },
+            token
+        })
     } catch (err) {
         next(err)
     }
@@ -47,7 +56,17 @@ exports.register = async(req, res, next) => {
         user = await user.save();
 
         const token = jwt.encode({ id: user.id }, config.jwtSecret)
-        return res.send({ user, token })
+        delete user.password
+        return res.send({
+            user: {
+                "_id": user._id,
+                "type": user.type,
+                "cart": user.cart,
+                "email": user.email,
+                "name": user.name,
+            },
+            token
+        })
     } catch (err) {
         next(err)
     }
