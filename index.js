@@ -11,6 +11,7 @@ const errorHandler = require('./middlewares/errorHandler')
 
 const authRoutes = require("./routes/auth.js");
 const productRoutes = require("./routes/product.js");
+const cartProductRoutes = require("./routes/cart_product.js");
 const app = express();
 
 app.use(cors());
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // routes
 app.use('/api/auth', authRoutes)
 app.use('/api/product', productRoutes)
+app.use('/api/cartProduct', passportJWT.authenticate(), cartProductRoutes);
 
 
 app.use(errorHandler)

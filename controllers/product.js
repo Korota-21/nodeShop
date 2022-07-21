@@ -24,14 +24,25 @@ exports.show = async(req, res) => {
 }
 exports.store = async(req, res, next) => {
     try {
-        validationHandler(req);
         let product = new Product();
+        validationHandler(req);
+        if (!req.user || req.user.type != "admin") {
+            const error = new Error("Wrong request")
+            error.statusCode = 403;
+            throw error;
+        }
+        if (!product) {
+            const error = new Error("Wrong request")
+            error.statusCode = 400;
+            throw error;
+        }
         product.image = req.file.filename;
         product.name = req.body.name;
         product.price = req.body.price;
         product.quantity = req.body.quantity;
         product.tags = req.body.tags;
         product.colors = req.body.colors;
+        product.description = req.body.description;
         product.availability = req.body.availability;
         product = await product.save()
         res.send(product);
@@ -48,7 +59,7 @@ exports.update = async(req, res, next) => {
             error.statusCode = 403;
             throw error;
         }
-        if (!product || req.user.type != "admin") {
+        if (!product) {
             const error = new Error("Wrong request")
             error.statusCode = 400;
             throw error;
@@ -85,4 +96,4 @@ exports.delete = async(req, res, next) => {
     } catch (err) {
         next(err);
     }
-};
+}

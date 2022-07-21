@@ -1,5 +1,6 @@
 const jwt = require("jwt-simple")
 const config = require("../config")
+const CartProduct = require("../models/cartProduct")
 
 const User = require("../models/user")
 const validationHandler = require("../validations/validationHandler")
@@ -59,5 +60,19 @@ exports.me = async(req, res, next) => {
     } catch (err) {
         next(err)
     }
-
 }
+exports.delete = async(req, res, next) => {
+    try {
+        let user = await User.findById(req.params.id);
+        if (!user || req.user.type != "admin") {
+            const error = new Error("Wrong request")
+            error.statusCode = 400;
+            throw error;
+        }
+        await CartProduct.deleteMany({ _id: user.cart })
+        await user.delete()
+        res.send({ message: "success" });
+    } catch (err) {
+        next(err);
+    }
+};

@@ -7,7 +7,7 @@ const UserSchema = new Schema({
     name: { type: String, required: true },
     password: { type: String, required: true, select: false },
     type: { type: String, required: true, default: 'customer' },
-
+    cart: [{ type: Schema.Types.ObjectId, ref: "cart_product" }]
 })
 UserSchema.methods.encryptPassword = async password => {
     const salt = await bcrypt.genSalt(5);
