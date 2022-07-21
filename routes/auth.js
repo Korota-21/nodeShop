@@ -10,5 +10,6 @@ router.post("/login", authController.login);
 router.post("/register", [isEmail, hasPassword, hasName], authController.register);
 router.get("/me", passportJWT.authenticate(), authController.me);
 router.delete("/:id", passportJWT.authenticate(), authController.delete);
+router.get("/", passportJWT.authenticate(), authController.index);
 
 module.exports = router;

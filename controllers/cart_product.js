@@ -1,5 +1,4 @@
 const CartProduct = require("../models/cartProduct");
-const { populate } = require("../models/product");
 const validationHandler = require("../validations/validationHandler")
 const User = require("../models/user");
 

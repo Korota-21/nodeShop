@@ -71,7 +71,21 @@ exports.register = async(req, res, next) => {
         next(err)
     }
 }
+exports.index = async(req, res, next) => {
+    try {
+        if (!req.user || req.user.type != "admin") {
+            const error = new Error("Wrong request")
+            error.statusCode = 403;
+            throw error;
+        }
+        const users = await User.find()
 
+        res.send(users);
+    } catch (err) {
+        next(err);
+    }
+
+}
 exports.me = async(req, res, next) => {
     try {
         const user = await User.findById(req.user)
