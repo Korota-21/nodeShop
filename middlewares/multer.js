@@ -9,9 +9,10 @@ module.exports = folderName => {
                 ext !== ".png" &&
                 ext !== ".jpg" &&
                 ext !== ".gif" &&
+                ext !== ".jfif" &&
                 ext !== ".jpeg"
             ) {
-                return cb(new Error("Only images are allowed"));
+                return cb(new Error("Only images are allowed\npng, jpg, gif, jpeg, jfif"));
             }
             cb(null, true)
         },
