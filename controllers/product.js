@@ -8,6 +8,7 @@ exports.index = async(req, res, next) => {
         const tags = req.query.tags
         const colors = req.query.colors
         const availability = req.query.availability ? JSON.parse((req.query.availability).toLowerCase()) : null;
+
         let query = {}
         if (!(availability == null))
             query.availability = availability;
@@ -15,17 +16,24 @@ exports.index = async(req, res, next) => {
             query.tags = tags;
         if (!(colors == null))
             query.colors = colors;
-
+        let count
+        await Product.countDocuments(query).exec((err, _count) => {
+            if (err) {
+                res.send(err);
+                return;
+            }
+            count = _count
+        })
         const products = await Product.find(query)
             .skip((page - 1) * pagination).limit(pagination)
             .sort({ createdAt: -1 });
-        res.send(products);
+        res.send({ products, count });
     } catch (err) {
         next(err);
     }
 
 }
-exports.show = async(req, res) => {
+exports.show = async(req, res, next) => {
     try {
         const product = await Product.findOne({ _id: req.params.id });
         res.send(product);
@@ -34,6 +42,7 @@ exports.show = async(req, res) => {
     }
 
 }
+
 exports.store = async(req, res, next) => {
     try {
         let product = new Product();
