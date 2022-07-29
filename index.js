@@ -12,6 +12,7 @@ const errorHandler = require('./middlewares/errorHandler')
 const authRoutes = require("./routes/auth.js");
 const productRoutes = require("./routes/product.js");
 const cartProductRoutes = require("./routes/cart_product.js");
+const wishProductRoutes = require("./routes/wish_product");
 const app = express();
 
 app.use(cors());
@@ -26,7 +27,7 @@ const Limiter = rateLimit({
 })
 
 // Apply the rate limiting middleware to API calls
-app.use(Limiter)
+// app.use(Limiter)
 
 app.use(passportJWT.initialize())
 
@@ -36,6 +37,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use('/api/auth', authRoutes)
 app.use('/api/product', productRoutes)
 app.use('/api/cartProduct', passportJWT.authenticate(), cartProductRoutes);
+app.use('/api/wishProduct', passportJWT.authenticate(), wishProductRoutes);
 
 
 app.use(errorHandler)
