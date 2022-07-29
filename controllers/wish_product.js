@@ -6,15 +6,8 @@ exports.index = async(req, res, next) => {
     try {
         const user = await User.findById(req.user).populate("wishList")
         const wishList = user.wishList
-        let count
-        await Product.countDocuments(query).exec((err, _count) => {
-            if (err) {
-                res.send(err);
-                return;
-            }
-            count = _count
-        })
-        res.send(wishList, count);
+
+        res.send(wishList);
     } catch (err) {
         next(err);
     }
@@ -23,6 +16,7 @@ exports.index = async(req, res, next) => {
 
 exports.store = async(req, res, next) => {
     try {
+
         validationHandler(req);
         let product = await Product.findById(req.body.product_id);
         if (!product || req.user.wishList.includes(product._id)) {
