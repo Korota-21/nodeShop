@@ -27,7 +27,7 @@ const Limiter = rateLimit({
 })
 
 // Apply the rate limiting middleware to API calls
-// app.use(Limiter)
+app.use(Limiter)
 
 app.use(passportJWT.initialize())
 
