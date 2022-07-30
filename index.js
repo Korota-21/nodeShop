@@ -23,7 +23,7 @@ mongoose.connect(config.mongoURI, { useNewUrlParser: true })
 
 const Limiter = rateLimit({
     windowMs: 15 * 1000, // 15 sec
-    max: 10, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+    max: 50, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
 })
 
 // Apply the rate limiting middleware to API calls
