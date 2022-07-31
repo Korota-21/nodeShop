@@ -5,6 +5,8 @@ const bodyParser = require("body-parser");
 const rateLimit = require("express-rate-limit")
 const { default: mongoose } = require('mongoose');
 
+'use strict';
+
 const config = require('./config');
 const passportJWT = require("./middlewares/passportJWT")()
 const errorHandler = require('./middlewares/errorHandler')
@@ -43,6 +45,6 @@ app.use('/api/wishProduct', passportJWT.authenticate(), wishProductRoutes);
 app.use(errorHandler)
 
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8080;
 
 app.listen(port, () => console.log(`listening on ${port} ...`));
